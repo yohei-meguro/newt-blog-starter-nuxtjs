@@ -1,5 +1,5 @@
 <template>
-  <div>Top page</div>
+  <div>Search page</div>
 </template>
 
 <script>

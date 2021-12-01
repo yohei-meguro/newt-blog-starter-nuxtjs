@@ -1,5 +1,5 @@
 <template>
-  <div>Top page</div>
+  <div>Category page</div>
 </template>
 
 <script>

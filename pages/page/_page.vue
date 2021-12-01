@@ -1,5 +1,5 @@
 <template>
-  <div>Top page</div>
+  <div>Pagination page</div>
 </template>
 
 <script>
