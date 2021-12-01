@@ -1,6 +1,6 @@
 <template>
   <article v-if="article" class="Article">
-    <NuxtLink to="/blog/article/" class="Article_Link">
+    <NuxtLink :to="`/article/${article.slug}`" class="Article_Link">
       <div class="Article_Eyecatch">
         <img v-if="article.coverImage" :src="article.coverImage.src" alt="" width="1076" height="664" />
       </div>
