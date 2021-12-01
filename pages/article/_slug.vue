@@ -1,32 +1,31 @@
 <template>
   <main class="Container">
-    <article class="Article">
+    <article v-if="article" class="Article">
       <div class="Article_Header">
-        <h1 class="Article_Title">ハイブリッドな働き方に合わせた採用の方法 - Fictitious最新アップデート</h1>
+        <h1 class="Article_Title">{{article.title}}</h1>
         <div class="Article_Data">
-          <div class="Article_Avatar">
-            <img src="/member01.jpg" alt="" width="32" height="32" />
-          </div>
-          <div class="Article_AuthorName">Donna Thomason</div>
-          <time datetime="2021-09-12" class="Article_Date">2021/09/12</time>
+          <template v-if="article.author">
+            <div v-if="article.author.profileImage" class="Article_Avatar">
+              <img :src="article.author.profileImage.src" alt="" width="32" height="32" />
+            </div>
+            <div class="Article_AuthorName">{{article.author.fullName}}</div>
+          </template>
+          <time :datetime="publishDateForAttr" class="Article_Date">{{publishDate}}</time>
         </div>
       </div>
-      <div class="Article_Body">
-        <p>【書き直し必要】チーム・コラボレーションと生産性向上を支援するソフトウェア企業のアトラシアン（NASDAQ: TEAM）は、アトラシアン製品のみならず、サードパーティー製品も含めて開発のアイデアから運用までの進捗を視覚化し、DevOpsの効果測定を支援するJira Software Cloudの新機能を発表しましたことをお知らせいたします。</p>
-        <img src="/blog01.jpg" alt="" width="1076" height="664" />
-        <p>DevOpsプラクティスが、チームがより早くサービスを提供することや、より良いコードを提供するために役立っているかどうかを理解することは、そのプラクティスが最終的に企業のビジネスに利益をもたらしているかを知る上で重要なことです。アトラシアンが実施した『2020 DevOpsトレンド調査』によると、多くのチームがDevOpsの実践を通してポジティブな影響があったと回答しているものの、組織のプロセスをどのように測定し、改善すべきか分かっていないチームが大半を占めていることが分かりました。企業はたくさんのデータを保持しているものの、ビジネスへ貢献できる知見、つまりインサイトを得ることに苦戦を強いられています。</p>
-        <p>チーム・コラボレーションと生産性向上を支援するソフトウェア企業のアトラシアン（NASDAQ: TEAM）は、アトラシアン製品のみならず、サードパーティー製品も含めて開発のアイデアから運用までの進捗を視覚化し、DevOpsの効果測定を支援するJira Software Cloudの新機能を発表しましたことをお知らせいたします。</p>
-      </div>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <div class="Article_Body" v-html="article.body"></div>
       <div class="Article_Info">
-        <time datetime="2021-09-12" class="Article_InfoDate">2021/09/12</time>
+        <time :datetime="publishDateForAttr" class="Article_InfoDate">{{publishDate}}</time>
       </div>
-      <aside class="Author">
+      <aside v-if="article.author" class="Author">
         <div class="Author_Avatar">
-          <img src="/member01.jpg" alt="" width="48" height="48" />
+          <img v-if="article.author.profileImage" :src="article.author.profileImage.src" :alt="article.author.fullName" width="48" height="48" />
         </div>
         <div class="Author_Text">
-          <div class="Author_Name">Donna Thomason</div>
-          <p class="Author_Description">DonnaはCEOとしてFictitious社の戦略を担っています。以前はPetlassianのマーケティング責任者として、グローバル・マーケティングを担当し、オンライン販売モデルの構築・拡大に貢献しました。また、Netdesk社の取締役を務めています。</p>
+          <div class="Author_Name">{{article.author.fullName}}</div>
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <p class="Author_Description" v-html="article.author.introduction.html"></p>
         </div>
       </aside>
     </article>
@@ -34,7 +33,25 @@
 </template>
 
 <script>
-export default {}
+import { getArticleBySlug } from 'api/article'
+import { formatDate } from 'utils/date'
+
+export default {
+  async asyncData({ $config, params }) {
+    const article = await getArticleBySlug($config, params.slug)
+    return {
+      article
+    }
+  },
+  computed: {
+    publishDate() {
+      return this.article._sys.createdAt ? formatDate(this.article._sys.createdAt) : ''
+    },
+    publishDateForAttr() {
+      return this.publishDate.replace(/\//g, '-')
+    }
+  }
+}
 </script>
 
 <style scoped>

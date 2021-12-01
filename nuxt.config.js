@@ -48,6 +48,7 @@ export default {
 
   alias: {
     api: resolve(__dirname, './api'),
+    utils: resolve(__dirname, './utils'),
   },
 
   publicRuntimeConfig: {

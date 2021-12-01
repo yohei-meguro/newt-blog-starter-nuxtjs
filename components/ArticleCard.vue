@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { DateTime } from 'luxon'
+import { formatDate } from 'utils/date'
 
 export default {
   props: {
@@ -34,11 +34,7 @@ export default {
   },
   methods: {
     formatDate(dateStr) {
-      return dateStr ? (
-        DateTime.fromISO(dateStr)
-          .setZone('Asia/Tokyo')
-          .toLocaleString(DateTime.DATE_SHORT)
-      ) : ''
+      return dateStr ? formatDate(dateStr) : ''
     }
   }
 }
