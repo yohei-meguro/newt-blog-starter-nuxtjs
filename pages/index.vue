@@ -2,7 +2,7 @@
   <main class="Container">
     <Cover img="https://as1.ftcdn.net/v2/jpg/03/45/18/76/1000_F_345187680_Eo4rKPDmdB6QTaGXFwU4NE5BaLlpGooL.jpg" />
     <div class="Articles">
-      <Dropdown :items="categories" />
+      <Dropdown :categories="categories" />
       <div class="Inner">
         <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
       </div>
@@ -13,24 +13,22 @@
 
 <script>
 import { getArticles } from 'api/article'
+import { getCategories } from 'api/category'
 
 export default {
   async asyncData(context) {
-    const result = await getArticles(context.$config)
+    const [resArticles, resCategories] = await Promise.all([
+      getArticles(context.$config),
+      getCategories(context.$config),
+    ])
     return {
-      articles: result.items,
-      total: result.total,
+      articles: resArticles.articles,
+      total: resArticles.total,
+      categories: resCategories.categories,
     }
   },
   data() {
-    return {
-      categories: [
-        { label: 'All posts' },
-        { label: 'Category01' },
-        { label: 'Category02' },
-        { label: 'Category03' }
-      ]      
-    }
+    return {}
   },
 }
 </script>

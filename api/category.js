@@ -1,7 +1,7 @@
 import { createClient } from 'newt-client-js'
-const ARTICLE_MODEL_NAME = 'article'
+const CATEGORY_MODEL_NAME = 'category'
 
-export const getArticles = async (config) => {
+export const getCategories = async (config) => {
   try {
     const client = createClient({
       projectUid: config.projectUid,
@@ -10,18 +10,18 @@ export const getArticles = async (config) => {
     })
     const result = await client.getContents({
       appUid:config.appUid,
-      modelUid: ARTICLE_MODEL_NAME,
+      modelUid: CATEGORY_MODEL_NAME,
       query: {
-        depth: 2
+        depth: 1
       }
     })
     return {
       ...result,
-      articles: result.items,
+      categories: result.items,
     }
   } catch (err) {
     return {
-      articles: [],
+      categories: [],
       total: 0,
     }
   }
