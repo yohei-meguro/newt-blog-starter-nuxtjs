@@ -1,6 +1,6 @@
 <template>
   <main class="Container">
-    <div class="Search">
+    <div v-if="articles.length > 0" class="Search">
       <p class="Search_Text">Found {{total}} results for your search</p>
       <div class="Search_Results">
         <article v-for="article in articles" :key="article._id" class="Article">
@@ -11,6 +11,11 @@
         </article>
         <Pagination />
       </div>
+    </div>
+    <div v-else-if="isLoading === false" class="Empty">
+      <div class="Empty_Emoji">😵</div>
+      <h2 class="Empty_Title">Nothing found</h2>
+      <p class="Empty_Description">Sorry, but nothing matched search terms…<br>Please try again with different keywords!</p>
     </div>
   </main>
 </template>
@@ -24,6 +29,7 @@ export default {
     return {
       articles: [],
       total: 0,
+      isLoading: true
     }
   },
   async created() {
@@ -37,6 +43,7 @@ export default {
     })
     this.articles = articles
     this.total = total
+    this.isLoading = false
   },
   methods: {
     toPlainText
@@ -100,5 +107,33 @@ export default {
   .Search_Results {
     padding: 24px 0 0 0;
   }
+}
+</style>
+
+<style scoped>
+.Container {
+  flex: 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.Empty {
+  text-align: center;
+}
+.Empty_Emoji {
+  font-size: 4rem;
+  line-height: 1;
+  margin: 0 0 16px 0;
+}
+.Empty_Title {
+  font-size: 1.8rem;
+  margin: 0 0 4px 0;
+  padding: 0;
+}
+.Empty_Description {
+  font-size: 1.4rem;
+  margin: 0;
+  padding: 0;
 }
 </style>
