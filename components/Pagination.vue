@@ -2,7 +2,7 @@
   <nav class="Pagination">
     <ul class="Pagination_Items">
       <li v-for="page in pages" :key="page.number" class="Pagination_Item">
-        <NuxtLink type="button" :to="`/page/${page.number}`" :class="`Pagination_Button ${page.isCurrent ? '_current' : ''}`">{{page.number}}</NuxtLink>
+        <NuxtLink type="button" :to="`${basePath}/page/${page.number}`" :class="`Pagination_Button ${page.isCurrent ? '_current' : ''}`">{{page.number}}</NuxtLink>
       </li>
     </ul>
   </nav>
@@ -18,6 +18,10 @@ export default {
     current: {
       type: Number,
       default: 1,
+    },
+    basePath: {
+      type: String,
+      default: '',
     }
   },
   computed: {

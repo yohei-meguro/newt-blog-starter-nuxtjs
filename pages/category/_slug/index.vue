@@ -6,7 +6,7 @@
       <div class="Inner">
         <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
       </div>
-      <Pagination />
+      <Pagination :total="total" :current="1" :base-path="`/category/${selected}`" />
     </div>
   </main>
 </template>
@@ -31,9 +31,7 @@ export default {
     }
   },
   data() {
-    return {
-      selectedCategory: null
-    }
+    return {}
   },
 }
 </script>
