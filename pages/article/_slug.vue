@@ -4,12 +4,10 @@
       <div class="Article_Header">
         <h1 class="Article_Title">{{article.title}}</h1>
         <div class="Article_Data">
-          <template v-if="article.author">
-            <div v-if="article.author.profileImage" class="Article_Avatar">
-              <img :src="article.author.profileImage.src" alt="" width="32" height="32" />
-            </div>
-            <div class="Article_AuthorName">{{article.author.fullName}}</div>
-          </template>
+          <div class="Article_Avatar">
+            <img :src="profileImageSrc" alt="" width="32" height="32" />
+          </div>
+          <div class="Article_AuthorName">{{authorName}}</div>
           <time :datetime="publishDateForAttr" class="Article_Date">{{publishDate}}</time>
         </div>
       </div>
@@ -18,14 +16,14 @@
       <div class="Article_Info">
         <time :datetime="publishDateForAttr" class="Article_InfoDate">{{publishDate}}</time>
       </div>
-      <aside v-if="article.author" class="Author">
+      <aside class="Author">
         <div class="Author_Avatar">
-          <img v-if="article.author.profileImage" :src="article.author.profileImage.src" :alt="article.author.fullName" width="48" height="48" />
+          <img :src="profileImageSrc" :alt="authorName" width="48" height="48" />
         </div>
         <div class="Author_Text">
-          <div class="Author_Name">{{article.author.fullName}}</div>
+          <div class="Author_Name">{{authorName}}</div>
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <p class="Author_Description" v-html="article.author.introduction.html"></p>
+          <p class="Author_Description" v-html="authorSelfIntroduction"></p>
         </div>
       </aside>
     </article>
@@ -50,6 +48,15 @@ export default {
     },
     publishDateForAttr() {
       return this.publishDate.replace(/\//g, '-')
+    },
+    profileImageSrc() {
+      return (this.article.author && this.article.author.profileImage && this.article.author.profileImage.src) || 'http://placehold.jp/32x32.png'
+    },
+    authorName() {
+      return (this.article.author && this.article.author.fullName) || 'NO NAME'
+    },
+    authorSelfIntroduction() {
+      return (this.article.author && this.article.author.introduction && this.article.author.introduction.html) || ''
     }
   }
 }

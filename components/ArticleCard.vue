@@ -2,17 +2,17 @@
   <article v-if="article" class="Article">
     <NuxtLink :to="`/article/${article.slug}`" class="Article_Link">
       <div class="Article_Eyecatch">
-        <img v-if="article.coverImage" :src="article.coverImage.src" alt="" width="1076" height="664" />
+        <img :src="coverImageSrc" alt="" width="1076" height="664" />
       </div>
       <div class="Article_Inner">
         <h2 class="Article_Title">{{article.title}}</h2>
         <div class="Article_Content">
           <div class="Article_Data">
             <div class="Article_Avatar">
-              <img :src="article.author && article.author.profileImage ? article.author.profileImage.src : ''" alt="" width="32" height="32" />
+              <img :src="profileImageSrc" alt="" width="32" height="32" />
             </div>
             <div class="Article_DataText">
-              <div class="Article_AuthorName">{{article.author && article.author.fullName ? article.author.fullName : 'Anonymous'}}</div>
+              <div class="Article_AuthorName">{{authorName}}</div>
               <time datetime="2021-09-12" class="Article_Date">{{formatDate(article._sys.createdAt)}}</time>
             </div>
           </div>
@@ -30,6 +30,17 @@ export default {
     article: {
       type: Object,
       default: null
+    }
+  },
+  computed: {
+    coverImageSrc() {
+      return (this.article.coverImage && this.article.coverImage.src) || 'http://placehold.jp/1076x664.png'
+    },
+    profileImageSrc() {
+      return (this.article.author && this.article.author.profileImage && this.article.author.profileImage.src) || 'http://placehold.jp/32x32.png'
+    },
+    authorName() {
+      return (this.article.author && this.article.author.fullName) || 'NO NAME'
     }
   },
   methods: {
