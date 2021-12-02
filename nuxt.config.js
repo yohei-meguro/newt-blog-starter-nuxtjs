@@ -52,9 +52,9 @@ export default {
   },
 
   publicRuntimeConfig: {
-    projectUid: '',
-    appUid: '',
-    token: '',
+    projectUid: '{プロジェクトUID}',
+    appUid: '{AppUID}',
+    token: '{CDN APIトークン}',
     pageLimit: 12,
   }
 }
