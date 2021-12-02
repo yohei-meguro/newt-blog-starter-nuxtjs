@@ -71,13 +71,13 @@ $ yarn start
 
 `Blog` appの中にArticle, Category, Authorの3つのモデルを作ります。
 
-| App名（任意） | モデル名 |
+| App名（任意） | モデル名（モデルUID） |
 | --- | --- |
-| Blog | Article |
-|  | Category |
-|  | Author |
+| Blog | Article (`article`) |
+|  | Category (`category`) |
+|  | Author (`author`) |
 
-### Articleモデル
+### Article（`uid: article`）モデル
 
 | フィールドID | フィールド名 | フィールドID	フィールド名 | フィールドID	フィールド名 |
 | --- | --- | --- | --- |
@@ -88,14 +88,14 @@ $ yarn start
 | category | カテゴリ | 参照（Categoryモデル） | 複数値 |
 | author | 著者 | 参照（Authorモデル） |  |
 
-### Categoryモデル
+### Category（`uid: category`）モデル
 
 | フィールドID | フィールド名 | フィールドID	フィールド名 | フィールドID	フィールド名 |
 | --- | --- | --- | --- |
 | name | 名前 | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | slug | スラッグ | テキスト | 必須フィールド |
 
-### Authorモデル
+### Author（`uid: author`）モデル
 
 | フィールドID | フィールド名 | フィールドID	フィールド名 | フィールドID	フィールド名 |
 | --- | --- | --- | --- |
