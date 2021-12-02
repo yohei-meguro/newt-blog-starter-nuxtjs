@@ -25,6 +25,7 @@ import { getArticles } from 'api/article'
 import { toPlainText } from 'utils/markdown'
 
 export default {
+  layout: 'sub',
   data() {
     return {
       articles: [],

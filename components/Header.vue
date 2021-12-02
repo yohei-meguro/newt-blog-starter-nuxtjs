@@ -1,6 +1,6 @@
 <template>
   <header class="Header">
-    <div v-if="$route.path === '/'" class="Title">
+    <div v-if="isHome" class="Title">
       <span v-if="icon" class="Title_Icon">{{icon}}</span>
       <h1 class="Title_Text">{{title}}</h1>
     </div>
@@ -39,16 +39,15 @@ export default {
     icon: {
       type: String,
       default: ''
+    },
+    isHome: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
       searchText: this.$route.query.q || ''
-    }
-  },
-  watch: {
-    '$route.query'() {
-      this.searchText = this.$route.query.q || ''
     }
   },
   methods: {

@@ -37,6 +37,7 @@ import { getArticleBySlug } from 'api/article'
 import { formatDate } from 'utils/date'
 
 export default {
+  layout: 'sub',
   async asyncData({ $config, params }) {
     const article = await getArticleBySlug($config, params.slug)
     return {
