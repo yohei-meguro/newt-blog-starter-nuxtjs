@@ -6,7 +6,7 @@
       <div class="Inner">
         <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
       </div>
-      <Pagination />
+      <Pagination :total="total" :current="1" />
     </div>
   </main>
 </template>

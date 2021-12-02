@@ -52,12 +52,9 @@ export default {
   },
 
   publicRuntimeConfig: {
-    pageLimit: 10
-  },
-
-  privateRuntimeConfig: {
     projectUid: '',
     appUid: '',
     token: '',
+    pageLimit: 12,
   }
 }

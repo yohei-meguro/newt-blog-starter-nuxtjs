@@ -1,21 +1,40 @@
 <template>
   <nav class="Pagination">
     <ul class="Pagination_Items">
-      <li class="Pagination_Item">
-        <button type="button" class="Pagination_Button">1</button>
-      </li>
-      <li class="Pagination_Item">
-        <button type="button" class="Pagination_Button">2</button>
-      </li>
-      <li class="Pagination_Item">
-        <button type="button" class="Pagination_Button">3</button>
+      <li v-for="page in pages" :key="page.number" class="Pagination_Item">
+        <NuxtLink type="button" :to="`/page/${page.number}`" :class="`Pagination_Button ${page.isCurrent ? '_current' : ''}`">{{page.number}}</NuxtLink>
       </li>
     </ul>
   </nav>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    total: {
+      type: Number,
+      default: 0,
+    },
+    current: {
+      type: Number,
+      default: 1,
+    }
+  },
+  computed: {
+    pages() {
+      return Array(Math.ceil(this.total / (this.$config.pageLimit || 10)))
+        .fill({ number: 0, isCurrent: false })
+        .map((value, index) => {
+          const pageNumber = index + 1
+          return {
+            ...value,
+            number: pageNumber,
+            isCurrent: this.current === pageNumber
+          }
+        })
+    }
+  }
+}
 </script>
 
 <style scoped>

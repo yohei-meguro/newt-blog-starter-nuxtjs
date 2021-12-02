@@ -1,40 +1,50 @@
 import { createClient } from 'newt-client-js'
 const ARTICLE_MODEL_NAME = 'article'
 
-export const getArticles = async (config, options={ search: '', category: '', query: {} }) => {
+export const getArticles = async (config, options={ search: '', category: '', page: 1, query: {} }) => {
   try {
     const client = createClient({
       projectUid: config.projectUid,
       token: config.token,
       apiType: 'cdn',
     })
-
-    const query = {
-      ...((options && options.query) || {})
+    const _options = {
+      search: '',
+      category: '',
+      page: 1,
+      query: {},
+      ...options,
     }
-    if (options && options.search) {
+    const query = {
+      ...(_options.query || {})
+    }
+    if (_options.search) {
       query.or = [
         {
           title: {
-            match: options.search
+            match: _options.search
           }
         },
         {
           body: {
-            match: options.search
+            match: _options.search
           }
         }
       ]
     }
-    if (options && options.category) {
-      query.categories = options.category
+    if (_options.category) {
+      query.categories = _options.category
     }
-
+    const page = _options.page || 1
+    const limit = config.pageLimit || 10
+    const skip = (page - 1) * limit
     const result = await client.getContents({
       appUid:config.appUid,
       modelUid: ARTICLE_MODEL_NAME,
       query: {
         depth: 2,
+        limit,
+        skip,
         ...query
       }
     })
