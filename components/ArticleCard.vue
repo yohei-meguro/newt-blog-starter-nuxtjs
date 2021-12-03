@@ -2,14 +2,26 @@
   <article v-if="article" class="Article">
     <NuxtLink :to="`/article/${article.slug}`" class="Article_Link">
       <div class="Article_Eyecatch">
-        <img :src="coverImageSrc" alt="" width="1076" height="664" />
+        <template v-if="this.article.coverImage">
+          <img :src="this.article.coverImage.src" alt="" />
+        </template>
+        <template v-else>
+          <div class="Article_EyecatchEmpty">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 24 24" fill="#CCCCCC"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg>
+          </div>
+        </template>
       </div>
       <div class="Article_Inner">
         <h2 class="Article_Title">{{article.title}}</h2>
         <div class="Article_Content">
           <div class="Article_Data">
             <div class="Article_Avatar">
-              <img :src="profileImageSrc" alt="" width="32" height="32" />
+              <template v-if="this.article.author && this.article.author.profileImage">
+                <img :src="this.article.author.profileImage.src" alt="" width="32" height="32" />
+              </template>
+              <template v-else>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="#CCCCCC"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+              </template>
             </div>
             <div class="Article_DataText">
               <div class="Article_AuthorName">{{authorName}}</div>
@@ -33,12 +45,6 @@ export default {
     }
   },
   computed: {
-    coverImageSrc() {
-      return (this.article.coverImage && this.article.coverImage.src) || 'http://placehold.jp/1076x664.png'
-    },
-    profileImageSrc() {
-      return (this.article.author && this.article.author.profileImage && this.article.author.profileImage.src) || 'http://placehold.jp/32x32.png'
-    },
     authorName() {
       return (this.article.author && this.article.author.fullName) || 'NO NAME'
     }
@@ -106,6 +112,19 @@ export default {
   width: 100%;
   height: 100%;
 }
+.Article_EyecatchEmpty {
+  background: rgba(0,0,0,.05);
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .Article_Inner {
   padding: 16px;
   flex: 1 auto;
@@ -133,6 +152,10 @@ export default {
   overflow: hidden;
   margin: 0 12px 0 0;
   flex-shrink: 0;
+  background: rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .Article_Avatar img {
   width: 32px;

@@ -5,7 +5,12 @@
         <h1 class="Article_Title">{{article.title}}</h1>
         <div class="Article_Data">
           <div class="Article_Avatar">
-            <img :src="profileImageSrc" alt="" width="32" height="32" />
+            <template v-if="this.article.author && this.article.author.profileImage">
+              <img :src="this.article.author.profileImage.src" alt="" width="32" height="32" />
+            </template>
+            <template v-else>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="#CCCCCC"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </template>
           </div>
           <div class="Article_AuthorName">{{authorName}}</div>
           <time :datetime="publishDateForAttr" class="Article_Date">{{publishDate}}</time>
@@ -18,7 +23,12 @@
       </div>
       <aside class="Author">
         <div class="Author_Avatar">
-          <img :src="profileImageSrc" :alt="authorName" width="48" height="48" />
+          <template v-if="this.article.author && this.article.author.profileImage">
+            <img :src="this.article.author.profileImage.src" alt="" width="48" height="48" />
+          </template>
+            <template v-else>
+              <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24" fill="#CCCCCC"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </template>
         </div>
         <div class="Author_Text">
           <div class="Author_Name">{{authorName}}</div>
@@ -48,9 +58,6 @@ export default {
     },
     publishDateForAttr() {
       return this.publishDate.replace(/\//g, '-')
-    },
-    profileImageSrc() {
-      return (this.article.author && this.article.author.profileImage && this.article.author.profileImage.src) || 'http://placehold.jp/32x32.png'
     },
     authorName() {
       return (this.article.author && this.article.author.fullName) || 'NO NAME'
@@ -88,6 +95,10 @@ export default {
   overflow: hidden;
   margin: 0 12px 0 0;
   flex-shrink: 0;
+  background: rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .Article_Avatar img {
   width: 32px;
@@ -194,6 +205,10 @@ export default {
   overflow: hidden;
   margin: 0 16px 0 0;
   flex-shrink: 0;
+  background: rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .Author_Avatar img {
   width: 48px;
