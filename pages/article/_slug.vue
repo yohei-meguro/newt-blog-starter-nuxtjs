@@ -18,9 +18,6 @@
       </div>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div class="Article_Body" v-html="article.body"></div>
-      <div class="Article_Info">
-        <time :datetime="publishDateForAttr" class="Article_InfoDate">{{publishDate}}</time>
-      </div>
       <aside class="Author">
         <div class="Author_Avatar">
           <template v-if="this.article.author && this.article.author.profileImage">
@@ -113,6 +110,9 @@ export default {
 .Article_Date {
   color: #888;
 }
+.Article_Body {
+  padding: 0 0 28px 0;
+}
 .Article_Body >>> p {
   margin: 0 0 24px 0;
 }
@@ -121,15 +121,6 @@ export default {
   height: auto;
   margin: 32px auto;
   display: block;
-}
-.Article_Info {
-  display: flex;
-  align-items: center;
-  margin: 40px 0;
-}
-.Article_InfoDate {
-  margin: 0 0 0 auto;
-  color: #888;
 }
 .Fav {
   display: flex;
