@@ -30,7 +30,7 @@
         <div class="Author_Text">
           <div class="Author_Name">{{authorName}}</div>
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <p class="Author_Description" v-html="authorSelfIntroduction"></p>
+          <div class="Author_Description" v-html="authorSelfIntroduction"></div>
         </div>
       </aside>
     </article>
@@ -218,6 +218,10 @@ export default {
   padding: 0;
   line-height: 1.5;
   font-size: 1.2rem;
+}
+.Author_Description >>> p {
+  margin: 0;
+  padding: 0;
 }
 @media (min-width: 600px) {
   .Article {
