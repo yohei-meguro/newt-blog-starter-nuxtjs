@@ -1,14 +1,10 @@
 <template>
   <header class="Header">
-    <div v-if="isHome" class="Title">
+    <NuxtLink to="/" class="Title">
       <span v-if="icon" class="Title_Icon">{{icon}}</span>
-      <h1 class="Title_Text">{{title}}</h1>
-    </div>
-    <div v-else class="Title">
-      <NuxtLink to="/" class="Title_Button">
-        <svg width="7" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M.2 5.85477131c.01386477-.23590466.11091814-.46783342.29116012-.6480754l4.6138027-4.6138027.08722081-.07770635c.39251766-.31082546.96436305-.28492334 1.32699275.07770636.39052429.3905243.39052429 1.02368927 0 1.41421356L2.609 5.916l3.91017638 3.91069591c.39052429.39052429.39052429 1.02368929 0 1.41421359-.3626297.3626297-.93447509.3885318-1.32699275.0777063l-.08722081-.0777063-4.6138027-4.61380272C.31091814 6.4468648.21386477 6.21493605.2 5.97903139z" fill="#333" fill-rule="nonzero" /></svg>
-      </NuxtLink>
-      <div class="Title_Text">{{title}}</div>
+      <h1 v-if="isHome" class="Title_Text">{{title}}</h1>
+      <div v-else class="Title_Text">{{title}}</div>
+    </NuxtLink>
     </div>
     <div class="Search">
       <button type="button" class="Search_Button" @click="focusInput">
@@ -77,6 +73,8 @@ export default {
   margin: 0 auto 0 0;
   align-items: center;
   min-width: 0;
+  color: #333;
+  text-decoration: none;
 }
 .Title_Icon {
   width: 34px;
@@ -141,11 +139,11 @@ export default {
   position: absolute;
   right: 8px;
   top: 8px;
-  z-index: -1;
+  pointer-events: none;
 }
 .Search_Input input:focus {
   opacity: 1;
-  z-index: 2;
+  pointer-events: inherit;
 }
 .Search_Button {
   height: 34px;
