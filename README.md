@@ -27,9 +27,9 @@
 export default {
   // ...省略
   publicRuntimeConfig: {
-    projectUid: '{プロジェクトUID}',
-    appUid: '{AppUID}',
-    token: '{CDN APIトークン}',
+    projectUid: 'プロジェクトUID',
+    appUid: 'AppUID',
+    token: 'CDN APIトークン',
     pageLimit: 12,
   }
 }
