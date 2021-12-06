@@ -13,7 +13,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'simple-blog-starter-nuxtjs-javascript',
+    title: 'Blog',
     htmlAttrs: {
       lang: 'en'
     },
