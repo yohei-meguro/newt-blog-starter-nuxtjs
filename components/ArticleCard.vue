@@ -25,7 +25,7 @@
             </div>
             <div class="Article_DataText">
               <div class="Article_AuthorName">{{authorName}}</div>
-              <time datetime="2021-09-12" class="Article_Date">{{formatDate(article._sys.createdAt)}}</time>
+              <time :datetime="formatDate(article._sys.createdAt).replace(/\//gm, '-')" class="Article_Date">{{formatDate(article._sys.createdAt)}}</time>
             </div>
           </div>
         </div>
