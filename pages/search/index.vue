@@ -5,7 +5,7 @@
       <div class="Search_Results">
         <article v-for="article in articles" :key="article._id" class="Article">
           <NuxtLink :to="`/article/${article.slug}`" class="Article_Link">
-            <h2 class="Article_Title">{{article.title}}</h2>
+            <h1 class="Article_Title">{{article.title}}</h1>
             <p class="Article_Description">{{toPlainText(article.body)}}</p>
           </NuxtLink>
         </article>
@@ -14,7 +14,7 @@
     </div>
     <div v-else-if="isLoading === false" class="Empty">
       <div class="Empty_Emoji">😵</div>
-      <h2 class="Empty_Title">Nothing found</h2>
+      <h1 class="Empty_Title">Nothing found</h1>
       <p class="Empty_Description">Sorry, but nothing matched search terms…<br>Please try again with different keywords!</p>
     </div>
   </main>
@@ -53,9 +53,14 @@ export default {
 </script>
 
 <style scoped>
+.Container {
+  flex: 1;
+  display: flex;
+}
 .Search {
   margin: 0 auto;
   padding: 24px;
+  width: 100%;
 }
 .Search_Text {
   padding: 0;
@@ -96,6 +101,10 @@ export default {
   margin: 0;
   padding: 0;
   font-size: 1.2rem;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 @media (min-width: 600px) {
   .Search {
@@ -109,18 +118,12 @@ export default {
     padding: 24px 0 0 0;
   }
 }
-</style>
-
-<style scoped>
-.Container {
-  flex: 1 auto;
+.Empty {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-}
-.Empty {
-  text-align: center;
+  align-items: center;
+  flex: 1;
 }
 .Empty_Emoji {
   font-size: 4rem;
@@ -136,5 +139,6 @@ export default {
   font-size: 1.4rem;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 </style>
