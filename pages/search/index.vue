@@ -55,6 +55,7 @@ export default {
         body: {
           fmt: 'text',
         },
+        limit: 100,
       },
     })
     this.articles = articles
