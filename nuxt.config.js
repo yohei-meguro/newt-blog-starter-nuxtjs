@@ -2,9 +2,9 @@ import { resolve } from 'path'
 
 export default {
   publicRuntimeConfig: {
-    projectUid: 'app-template',
-    appUid: 'blog',
-    token: 'FsYbRuhFIRHGIla5gVOyCU4JWU2UVJnRuXKTqO3CRfQ',
+    projectUid: 'プロジェクトUID',
+    appUid: 'AppUID',
+    token: 'CDN APIトークン',
     apiType: 'cdn',
     pageLimit: 12,
   },
