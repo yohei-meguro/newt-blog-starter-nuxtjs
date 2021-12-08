@@ -1,34 +1,51 @@
 <template>
-  <main class="Container">
-    <Cover img="https://as1.ftcdn.net/v2/jpg/03/45/18/76/1000_F_345187680_Eo4rKPDmdB6QTaGXFwU4NE5BaLlpGooL.jpg" />
-    <div class="Articles">
-      <Dropdown :categories="categories" />
-      <div class="Inner">
-        <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
+  <Wrapper :app="app">
+    <main class="Container">
+      <Cover
+        v-if="app && app.cover && app.cover.value"
+        :img="app.cover.value"
+      />
+      <div class="Articles">
+        <Dropdown :categories="categories" />
+        <div class="Inner">
+          <ArticleCard
+            v-for="article in articles"
+            :key="article._id"
+            :article="article"
+          />
+        </div>
+        <Pagination :total="total" :current="1" />
       </div>
-      <Pagination :total="total" :current="1" />
-    </div>
-  </main>
+    </main>
+  </Wrapper>
 </template>
 
 <script>
 import { getArticles } from 'api/article'
 import { getCategories } from 'api/category'
+import { getApp } from 'api/app'
 
 export default {
   async asyncData(context) {
-    const [resArticles, resCategories] = await Promise.all([
+    const [resArticles, resCategories, app] = await Promise.all([
       getArticles(context.$config),
       getCategories(context.$config),
+      getApp(context.$config),
     ])
     return {
       articles: resArticles.articles,
       total: resArticles.total,
       categories: resCategories.categories,
+      app,
     }
   },
-  data() {
-    return {}
+  computed: {
+    title() {
+      return (this.app && this.app.name) || 'Blog'
+    },
+    icon() {
+      return (this.app && this.app.icon && this.app.icon.value) || '✏️'
+    },
   },
 }
 </script>
