@@ -2,10 +2,11 @@ import { resolve } from 'path'
 
 export default {
   publicRuntimeConfig: {
-    projectUid: 'プロジェクトUID',
-    appUid: 'AppUID',
-    token: 'CDN APIトークン',
+    projectUid: 'app-template',
+    appUid: 'blog',
+    token: 'FsYbRuhFIRHGIla5gVOyCU4JWU2UVJnRuXKTqO3CRfQ',
     apiType: 'cdn',
+    pageLimit: 12,
   },
 
   // Target: https://go.nuxtjs.dev/config-target

@@ -1,7 +1,6 @@
 import { createClient } from 'newt-client-js'
 
 const ARTICLE_MODEL_NAME = 'article'
-const PAGE_LIMIT = 12
 
 export const getArticles = async (
   config,
@@ -41,7 +40,7 @@ export const getArticles = async (
       query.categories = _options.category
     }
     const page = _options.page || 1
-    const limit = PAGE_LIMIT
+    const limit = config.pageLimit || 10
     const skip = (page - 1) * limit
     const result = await client.getContents({
       appUid: config.appUid,
