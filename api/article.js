@@ -11,7 +11,7 @@ export const getArticles = async (
     const client = createClient({
       projectUid: config.projectUid,
       token: config.token,
-      apiType: 'cdn',
+      apiType: config.apiType,
     })
     const _options = {
       search: '',
@@ -70,7 +70,7 @@ export const getArticleBySlug = async (config, slug) => {
     const client = createClient({
       projectUid: config.projectUid,
       token: config.token,
-      apiType: 'cdn',
+      apiType: config.apiType,
     })
     const result = await client.getContents({
       appUid: config.appUid,
