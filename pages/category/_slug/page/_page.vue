@@ -2,7 +2,8 @@
   <Wrapper :app="app">
     <main class="Container">
       <Cover
-        img="https://as1.ftcdn.net/v2/jpg/03/45/18/76/1000_F_345187680_Eo4rKPDmdB6QTaGXFwU4NE5BaLlpGooL.jpg"
+        v-if="app && app.cover && app.cover.value"
+        :img="app.cover.value"
       />
       <div class="Articles">
         <Dropdown :categories="categories" :selected="selected" />
