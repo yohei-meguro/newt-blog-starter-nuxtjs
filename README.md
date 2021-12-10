@@ -1,7 +1,7 @@
 # newt-blog-starter-nuxtjs
 
 [Newt](https://www.newt.so/) を利用したシンプルなブログ
-技術構成： Nuxt.js, JavaScript
+<br />技術構成： Nuxt.js, JavaScript
 
 ## 開発をはじめる
 
