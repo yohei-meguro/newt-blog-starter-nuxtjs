@@ -24,6 +24,7 @@
 import { getArticles } from 'api/article'
 import { getCategories } from 'api/category'
 import { getApp } from 'api/app'
+import { getSiteName } from 'utils/head'
 
 export default {
   async asyncData(context) {
@@ -39,13 +40,10 @@ export default {
       app,
     }
   },
-  computed: {
-    title() {
-      return (this.app && this.app.name) || 'Blog'
-    },
-    icon() {
-      return (this.app && this.app.icon && this.app.icon.value) || '✏️'
-    },
+  head() {
+    return {
+      title: getSiteName(this.app),
+    }
   },
 }
 </script>
