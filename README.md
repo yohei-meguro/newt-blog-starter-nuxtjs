@@ -31,8 +31,11 @@ export default {
     projectUid: 'プロジェクトUID',
     appUid: 'AppUID',
     token: 'CDN APIトークン',
+    apiType: 'cdn',
+    articleModelUid: 'article',
+    categoryModelUid: 'category',
     pageLimit: 12,
-  }
+  },
 }
 ```
 
@@ -84,6 +87,7 @@ $ yarn start
 | --- | --- | --- | --- |
 | title | タイトル | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | slug | スラッグ | テキスト | 必須フィールド |
+| meta | メタ情報 | カスタムフィールド | |
 | coverImage | カバー画像 | 画像 |  |
 | body | 本文 | Markdown or リッチテキスト |  |
 | category | カテゴリ | 参照（Categoryモデル） | 複数値 |
