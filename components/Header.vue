@@ -3,11 +3,15 @@
     <div class="Header_Inner">
       <NuxtLink to="/" class="Title">
         <span v-if="icon" class="Title_Icon">{{ icon }}</span>
-        <h1 v-if="useH1" class="Title_Text">{{ title }}</h1>
-        <div v-else class="Title_Text">{{ title }}</div>
+        <div class="Title_Text">{{ title }}</div>
       </NuxtLink>
       <div class="Link">
-        <a href="https://github.com/Newt-Inc/newt-blog-starter-nuxtjs" rel="noreferrer noopener" target="_blank">GitHub</a>
+        <a
+          href="https://github.com/Newt-Inc/newt-blog-starter-nuxtjs"
+          rel="noreferrer noopener"
+          target="_blank"
+          >GitHub</a
+        >
       </div>
       <div class="Search">
         <button type="button" class="Search_Button" @click="focusInput">
@@ -45,10 +49,6 @@ export default {
     icon: {
       type: String,
       default: '',
-    },
-    useH1: {
-      type: Boolean,
-      default: true,
     },
   },
   data() {
@@ -198,7 +198,7 @@ export default {
 .Link > a {
   color: #888;
   text-decoration: none;
-  transition: color .2s;
+  transition: color 0.2s;
   padding: 3px 12px;
 }
 .Link > a:hover {

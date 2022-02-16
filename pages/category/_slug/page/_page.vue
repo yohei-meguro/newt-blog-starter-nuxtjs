@@ -1,37 +1,34 @@
 <template>
-  <Wrapper :app="app">
-    <main class="Container">
-      <Cover
-        v-if="app && app.cover && app.cover.value"
-        :img="app.cover.value"
-      />
-      <div class="Articles">
-        <Dropdown :categories="categories" :selected="selected" />
-        <div class="Inner">
-          <ArticleCard
-            v-for="article in articles"
-            :key="article._id"
-            :article="article"
-          />
-        </div>
-        <Pagination
-          :total="total"
-          :current="pageNumber"
-          :base-path="`/category/${selected}`"
+  <main class="Container">
+    <Cover v-if="app && app.cover && app.cover.value" :img="app.cover.value" />
+    <div class="Articles">
+      <Dropdown :categories="categories" :selected="selected" />
+      <div class="Inner">
+        <ArticleCard
+          v-for="article in articles"
+          :key="article._id"
+          :article="article"
         />
       </div>
-    </main>
-  </Wrapper>
+      <Pagination
+        :total="total"
+        :current="pageNumber"
+        :base-path="`/category/${selected}`"
+      />
+    </div>
+  </main>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { getArticles } from 'api/article'
 import { getCategories } from 'api/category'
-import { getApp } from 'api/app'
 import { getSiteName } from 'utils/head'
 
 export default {
-  async asyncData({ $config, redirect, params }) {
+  async asyncData({ $config, store, redirect, params }) {
+    await store.dispatch('fetchApp', $config)
+
     const pageNumber = Number(params.page)
     if (Number.isNaN(pageNumber)) return redirect(302, '/')
     const { categories } = await getCategories($config)
@@ -42,7 +39,6 @@ export default {
       category: (category && category._id) || '',
       page: pageNumber,
     })
-    const app = await getApp($config)
 
     return {
       articles,
@@ -50,13 +46,15 @@ export default {
       categories,
       selected: params.slug || '',
       pageNumber,
-      app,
     }
   },
   head() {
     return {
       title: getSiteName(this.app),
     }
+  },
+  computed: {
+    ...mapGetters(['app']),
   },
 }
 </script>

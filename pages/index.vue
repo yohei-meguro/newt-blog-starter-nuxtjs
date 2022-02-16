@@ -1,49 +1,47 @@
 <template>
-  <Wrapper :app="app">
-    <main class="Container">
-      <Cover
-        v-if="app && app.cover && app.cover.value"
-        :img="app.cover.value"
-      />
-      <div class="Articles">
-        <Dropdown :categories="categories" />
-        <div class="Inner">
-          <ArticleCard
-            v-for="article in articles"
-            :key="article._id"
-            :article="article"
-          />
-        </div>
-        <Pagination :total="total" :current="1" />
+  <main class="Container">
+    <Cover v-if="app && app.cover && app.cover.value" :img="app.cover.value" />
+    <div class="Articles">
+      <Dropdown :categories="categories" />
+      <div class="Inner">
+        <ArticleCard
+          v-for="article in articles"
+          :key="article._id"
+          :article="article"
+        />
       </div>
-    </main>
-  </Wrapper>
+      <Pagination :total="total" :current="1" />
+    </div>
+  </main>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { getArticles } from 'api/article'
 import { getCategories } from 'api/category'
-import { getApp } from 'api/app'
 import { getSiteName } from 'utils/head'
 
 export default {
-  async asyncData(context) {
-    const [resArticles, resCategories, app] = await Promise.all([
-      getArticles(context.$config),
-      getCategories(context.$config),
-      getApp(context.$config),
+  async asyncData({ $config, store }) {
+    await store.dispatch('fetchApp', $config)
+
+    const [resArticles, resCategories] = await Promise.all([
+      getArticles($config),
+      getCategories($config),
     ])
     return {
       articles: resArticles.articles,
       total: resArticles.total,
       categories: resCategories.categories,
-      app,
     }
   },
   head() {
     return {
       title: getSiteName(this.app),
     }
+  },
+  computed: {
+    ...mapGetters(['app']),
   },
 }
 </script>

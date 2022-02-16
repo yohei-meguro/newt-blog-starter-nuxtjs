@@ -1,57 +1,23 @@
 <template>
-  <Wrapper :app="app" :use-h1="false">
-    <main class="Container">
-      <article v-if="article" class="Article">
-        <div class="Article_Header">
-          <h1 class="Article_Title">{{ article.title }}</h1>
-          <div class="Article_Data">
-            <div class="Article_Avatar">
-              <template v-if="article.author && article.author.profileImage">
-                <img
-                  :src="article.author.profileImage.src"
-                  alt=""
-                  width="32"
-                  height="32"
-                />
-              </template>
-              <template v-else>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20px"
-                  height="20px"
-                  viewBox="0 0 24 24"
-                  fill="#CCCCCC"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path
-                    d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                  />
-                </svg>
-              </template>
-            </div>
-            <div class="Article_AuthorName">{{ authorName }}</div>
-            <time :datetime="publishDateForAttr" class="Article_Date">{{
-              publishDate
-            }}</time>
-          </div>
-        </div>
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <div class="Article_Body" v-html="article.body"></div>
-        <aside class="Author">
-          <div class="Author_Avatar">
+  <main class="Container">
+    <article v-if="article" class="Article">
+      <div class="Article_Header">
+        <h1 class="Article_Title">{{ article.title }}</h1>
+        <div class="Article_Data">
+          <div class="Article_Avatar">
             <template v-if="article.author && article.author.profileImage">
               <img
                 :src="article.author.profileImage.src"
                 alt=""
-                width="48"
-                height="48"
+                width="32"
+                height="32"
               />
             </template>
             <template v-else>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="28px"
-                height="28px"
+                width="20px"
+                height="20px"
                 viewBox="0 0 24 24"
                 fill="#CCCCCC"
               >
@@ -62,33 +28,62 @@
               </svg>
             </template>
           </div>
-          <div class="Author_Text">
-            <div class="Author_Name">{{ authorName }}</div>
-            <!-- eslint-disable vue/no-v-html -->
-            <div
-              class="Author_Description"
-              v-html="authorSelfIntroduction"
-            ></div>
-            <!-- eslint-enable vue/no-v-html -->
-          </div>
-        </aside>
-      </article>
-    </main>
-  </Wrapper>
+          <div class="Article_AuthorName">{{ authorName }}</div>
+          <time :datetime="publishDateForAttr" class="Article_Date">{{
+            publishDate
+          }}</time>
+        </div>
+      </div>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <div class="Article_Body" v-html="article.body"></div>
+      <aside class="Author">
+        <div class="Author_Avatar">
+          <template v-if="article.author && article.author.profileImage">
+            <img
+              :src="article.author.profileImage.src"
+              alt=""
+              width="48"
+              height="48"
+            />
+          </template>
+          <template v-else>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28px"
+              height="28px"
+              viewBox="0 0 24 24"
+              fill="#CCCCCC"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path
+                d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+              />
+            </svg>
+          </template>
+        </div>
+        <div class="Author_Text">
+          <div class="Author_Name">{{ authorName }}</div>
+          <!-- eslint-disable vue/no-v-html -->
+          <div class="Author_Description" v-html="authorSelfIntroduction"></div>
+          <!-- eslint-enable vue/no-v-html -->
+        </div>
+      </aside>
+    </article>
+  </main>
 </template>
 
 <script>
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { getArticleBySlug } from 'api/article'
 import { formatDate } from 'utils/date'
 
 export default {
-  async asyncData({ $config, params }) {
+  async asyncData({ $config, store, params }) {
+    await store.dispatch('fetchApp', $config)
+
     const article = await getArticleBySlug($config, params.slug)
-    const app = await getApp($config)
     return {
       article,
-      app,
     }
   },
   head() {
@@ -97,6 +92,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['app']),
     publishDate() {
       return this.article._sys.createdAt
         ? formatDate(this.article._sys.createdAt)
