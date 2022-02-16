@@ -25,7 +25,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getArticles } from 'api/article'
 import { toPlainText } from 'utils/markdown'
 import { getSiteName } from 'utils/head'
 
@@ -36,8 +35,6 @@ export default {
   },
   data() {
     return {
-      articles: [],
-      total: 0,
       isLoading: true,
     }
   },
@@ -47,10 +44,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['app']),
+    ...mapGetters(['app', 'articles', 'total']),
   },
   async created() {
-    const { articles, total } = await getArticles(this.$config, {
+    await this.$store.dispatch('fetchArticles', {
+      ...this.$config,
       search: this.$route.query.q || '',
       query: {
         body: {
@@ -59,8 +57,6 @@ export default {
         limit: 100,
       },
     })
-    this.articles = articles
-    this.total = total
     this.isLoading = false
   },
   methods: {

@@ -21,7 +21,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getArticles } from 'api/article'
 import { getCategories } from 'api/category'
 import { getSiteName } from 'utils/head'
 
@@ -33,13 +32,12 @@ export default {
     const category = categories.find(
       (_category) => _category.slug === params.slug
     )
-    const { articles, total } = await getArticles($config, {
+    await store.dispatch('fetchArticles', {
+      ...$config,
       category: (category && category._id) || '',
     })
 
     return {
-      articles,
-      total,
       categories,
       selected: params.slug || '',
     }
@@ -50,7 +48,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['app']),
+    ...mapGetters(['app', 'articles', 'total']),
   },
 }
 </script>
