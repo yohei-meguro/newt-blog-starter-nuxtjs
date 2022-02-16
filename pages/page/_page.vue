@@ -17,12 +17,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getCategories } from 'api/category'
 import { getSiteName } from 'utils/head'
 
 export default {
   async asyncData({ $config, store, redirect, params }) {
     await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchCategories', $config)
 
     const pageNumber = Number(params.page)
     if (Number.isNaN(pageNumber)) return redirect(302, '/')
@@ -31,10 +31,8 @@ export default {
       page: pageNumber,
     })
 
-    const [resCategories] = await Promise.all([getCategories($config)])
     return {
       pageNumber,
-      categories: resCategories.categories,
     }
   },
   head() {
@@ -43,7 +41,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['app', 'articles', 'total']),
+    ...mapGetters(['app', 'articles', 'total', 'categories']),
   },
 }
 </script>

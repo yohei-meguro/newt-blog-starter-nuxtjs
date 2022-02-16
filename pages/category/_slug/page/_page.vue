@@ -21,17 +21,16 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getCategories } from 'api/category'
 import { getSiteName } from 'utils/head'
 
 export default {
   async asyncData({ $config, store, redirect, params }) {
     await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchCategories', $config)
 
     const pageNumber = Number(params.page)
     if (Number.isNaN(pageNumber)) return redirect(302, '/')
-    const { categories } = await getCategories($config)
-    const category = categories.find(
+    const category = store.getters.categories.find(
       (_category) => _category.slug === params.slug
     )
     await store.dispatch('fetchArticles', {
@@ -41,7 +40,6 @@ export default {
     })
 
     return {
-      categories,
       selected: params.slug || '',
       pageNumber,
     }
@@ -52,7 +50,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['app', 'articles', 'total']),
+    ...mapGetters(['app', 'articles', 'total', 'categories']),
   },
 }
 </script>

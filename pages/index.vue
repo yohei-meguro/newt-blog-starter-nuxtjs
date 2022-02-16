@@ -17,18 +17,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getCategories } from 'api/category'
 import { getSiteName } from 'utils/head'
 
 export default {
   async asyncData({ $config, store }) {
     await store.dispatch('fetchApp', $config)
     await store.dispatch('fetchArticles', $config)
-
-    const [resCategories] = await Promise.all([getCategories($config)])
-    return {
-      categories: resCategories.categories,
-    }
+    await store.dispatch('fetchCategories', $config)
+    return {}
   },
   head() {
     return {
@@ -36,7 +32,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['app', 'articles', 'total']),
+    ...mapGetters(['app', 'articles', 'total', 'categories']),
   },
 }
 </script>

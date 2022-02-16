@@ -121,9 +121,6 @@ export const actions = {
         modelUid: categoryModelUid,
         query: {
           depth: 1,
-          order: ['sortOrder'],
-          select: ['_id', 'name'],
-          limit: 1000,
         },
       })
       commit('setCategories', items)
