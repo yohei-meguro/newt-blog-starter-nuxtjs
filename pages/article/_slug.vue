@@ -79,6 +79,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { formatDate } from 'utils/date'
+import { toPlainText } from '../../utils/markdown'
 
 export default {
   async asyncData({ $config, store, params }) {
@@ -91,11 +92,53 @@ export default {
   },
   head() {
     return {
-      title: (this.currentArticle && this.currentArticle.title) || '',
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.description,
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: this.ogImage,
+        },
+      ],
     }
   },
   computed: {
     ...mapGetters(['app', 'currentArticle']),
+    meta() {
+      if (this.currentArticle && this.currentArticle.meta) {
+        return this.currentArticle.meta
+      }
+      return null
+    },
+    title() {
+      if (this.meta && this.meta.title) {
+        return this.meta.title
+      }
+      if (this.currentArticle && this.currentArticle.title) {
+        return this.currentArticle.title
+      }
+      return this.app && (this.app.name || this.app.uid || 'Docs')
+    },
+    description() {
+      if (this.meta && this.meta.description) {
+        return this.meta.description
+      }
+      if (this.currentArticle && this.currentArticle.body) {
+        return toPlainText(this.currentArticle.body).slice(0, 200)
+      }
+      return ''
+    },
+    ogImage() {
+      if (this.meta && this.meta.ogImage) {
+        return this.meta.ogImage.src
+      }
+      return ''
+    },
     publishDate() {
       return this.currentArticle && this.currentArticle._sys.createdAt
         ? formatDate(this.currentArticle._sys.createdAt)
