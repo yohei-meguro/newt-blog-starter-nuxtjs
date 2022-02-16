@@ -1,13 +1,15 @@
 <template>
   <main class="Container">
-    <article v-if="article" class="Article">
+    <article v-if="currentArticle" class="Article">
       <div class="Article_Header">
-        <h1 class="Article_Title">{{ article.title }}</h1>
+        <h1 class="Article_Title">{{ currentArticle.title }}</h1>
         <div class="Article_Data">
           <div class="Article_Avatar">
-            <template v-if="article.author && article.author.profileImage">
+            <template
+              v-if="currentArticle.author && currentArticle.author.profileImage"
+            >
               <img
-                :src="article.author.profileImage.src"
+                :src="currentArticle.author.profileImage.src"
                 alt=""
                 width="32"
                 height="32"
@@ -35,12 +37,14 @@
         </div>
       </div>
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <div class="Article_Body" v-html="article.body"></div>
+      <div class="Article_Body" v-html="currentArticle.body"></div>
       <aside class="Author">
         <div class="Author_Avatar">
-          <template v-if="article.author && article.author.profileImage">
+          <template
+            v-if="currentArticle.author && currentArticle.author.profileImage"
+          >
             <img
-              :src="article.author.profileImage.src"
+              :src="currentArticle.author.profileImage.src"
               alt=""
               width="48"
               height="48"
@@ -74,41 +78,45 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getArticleBySlug } from 'api/article'
 import { formatDate } from 'utils/date'
 
 export default {
   async asyncData({ $config, store, params }) {
     await store.dispatch('fetchApp', $config)
-
-    const article = await getArticleBySlug($config, params.slug)
-    return {
-      article,
-    }
+    await store.dispatch('fetchCurrentArticle', {
+      ...$config,
+      slug: params.slug,
+    })
+    return {}
   },
   head() {
     return {
-      title: this.article.title,
+      title: (this.currentArticle && this.currentArticle.title) || '',
     }
   },
   computed: {
-    ...mapGetters(['app']),
+    ...mapGetters(['app', 'currentArticle']),
     publishDate() {
-      return this.article._sys.createdAt
-        ? formatDate(this.article._sys.createdAt)
+      return this.currentArticle && this.currentArticle._sys.createdAt
+        ? formatDate(this.currentArticle._sys.createdAt)
         : ''
     },
     publishDateForAttr() {
       return this.publishDate.replace(/\//g, '-')
     },
     authorName() {
-      return (this.article.author && this.article.author.fullName) || 'NO NAME'
+      return (
+        (this.currentArticle &&
+          this.currentArticle.author &&
+          this.currentArticle.author.fullName) ||
+        'NO NAME'
+      )
     },
     authorSelfIntroduction() {
       return (
-        (this.article.author &&
-          this.article.author.introduction &&
-          this.article.author.introduction.html) ||
+        (this.currentArticle &&
+          this.currentArticle.author &&
+          this.currentArticle.author.introduction) ||
         ''
       )
     },

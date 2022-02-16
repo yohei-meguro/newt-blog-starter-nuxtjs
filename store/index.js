@@ -5,6 +5,7 @@ export const state = () => ({
   articles: [],
   total: 0,
   categories: [],
+  currentArticle: null,
 })
 
 export const getters = {
@@ -12,6 +13,7 @@ export const getters = {
   articles: (state) => state.articles,
   total: (state) => state.total,
   categories: (state) => state.categories,
+  currentArticle: (state) => state.currentArticle,
 }
 
 export const mutations = {
@@ -26,6 +28,9 @@ export const mutations = {
   },
   setCategories(state, categories) {
     state.categories = categories
+  },
+  setCurrentArticle(state, currentArticle) {
+    state.currentArticle = currentArticle
   },
 }
 
@@ -126,6 +131,31 @@ export const actions = {
       commit('setCategories', items)
     } catch (err) {
       // console.error(err)
+    }
+  },
+  async fetchCurrentArticle(
+    { commit },
+    { projectUid, articleModelUid, token, apiType, appUid, slug }
+  ) {
+    try {
+      if (!slug) return commit('setCurrentArticle', null)
+      const client = createClient({
+        projectUid,
+        token,
+        apiType,
+      })
+      const { items } = await client.getContents({
+        appUid,
+        modelUid: articleModelUid,
+        query: {
+          depth: 2,
+          limit: 1,
+          slug,
+        },
+      })
+      commit('setCurrentArticle', items.length === 1 ? items[0] : null)
+    } catch (err) {
+      return null
     }
   },
 }
