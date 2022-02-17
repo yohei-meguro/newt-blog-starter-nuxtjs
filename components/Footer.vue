@@ -37,10 +37,10 @@ export default {
   },
   computed: {
     title() {
-      return (this.app && (this.app.name || this.app.uid)) || 'Blog2'
+      return (this.app && (this.app.name || this.app.uid)) || 'Blog'
     },
     icon() {
-      return (this.app && this.app.icon) || { type: 'emoji', value: '✌️' }
+      return (this.app && this.app.icon) || { type: 'emoji', value: '✏️' }
     },
   },
 }
