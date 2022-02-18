@@ -122,7 +122,7 @@ export default {
       if (this.currentArticle && this.currentArticle.title) {
         return this.currentArticle.title
       }
-      return this.app && (this.app.name || this.app.uid || 'Docs')
+      return this.app && (this.app.name || this.app.uid || 'Blog')
     },
     description() {
       if (this.meta && this.meta.description) {
