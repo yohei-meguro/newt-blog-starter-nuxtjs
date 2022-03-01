@@ -79,7 +79,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { formatDate } from 'utils/date'
-import { toPlainText } from '../../utils/markdown'
+import { htmlToText } from 'html-to-text'
 
 export default {
   async asyncData({ $config, store, params }) {
@@ -129,7 +129,9 @@ export default {
         return this.meta.description
       }
       if (this.currentArticle && this.currentArticle.body) {
-        return toPlainText(this.currentArticle.body).slice(0, 200)
+        return htmlToText(this.currentArticle.body, {
+          selectors: [{ selector: 'img', format: 'skip' }],
+        }).slice(0, 200)
       }
       return ''
     },

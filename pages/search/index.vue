@@ -6,7 +6,9 @@
         <article v-for="article in articles" :key="article._id" class="Article">
           <NuxtLink :to="`/article/${article.slug}`" class="Article_Link">
             <h1 class="Article_Title">{{ article.title }}</h1>
-            <p class="Article_Description">{{ toPlainText(article.body) }}</p>
+            <p class="Article_Description">
+              {{ htmlToText(article.body) }}
+            </p>
           </NuxtLink>
         </article>
         <Pagination />
@@ -24,8 +26,8 @@
 </template>
 
 <script>
+import { htmlToText } from 'html-to-text'
 import { mapGetters } from 'vuex'
-import { toPlainText } from 'utils/markdown'
 import { getSiteName } from 'utils/head'
 
 export default {
@@ -51,16 +53,17 @@ export default {
       ...this.$config,
       search: this.$route.query.q || '',
       query: {
-        body: {
-          fmt: 'text',
-        },
         limit: 100,
       },
     })
     this.isLoading = false
   },
   methods: {
-    toPlainText,
+    htmlToText(html) {
+      return htmlToText(html, {
+        selectors: [{ selector: 'img', format: 'skip' }],
+      })
+    },
   },
 }
 </script>
