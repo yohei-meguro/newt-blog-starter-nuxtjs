@@ -68,7 +68,7 @@
         <div class="Author_Text">
           <div class="Author_Name">{{ authorName }}</div>
           <!-- eslint-disable vue/no-v-html -->
-          <div class="Author_Description" v-html="authorSelfIntroduction"></div>
+          <div class="Author_Description" v-html="authorBio"></div>
           <!-- eslint-enable vue/no-v-html -->
         </div>
       </aside>
@@ -157,11 +157,11 @@ export default {
         'NO NAME'
       )
     },
-    authorSelfIntroduction() {
+    authorBio() {
       return (
         (this.currentArticle &&
           this.currentArticle.author &&
-          this.currentArticle.author.introduction) ||
+          this.currentArticle.author.biography) ||
         ''
       )
     },
