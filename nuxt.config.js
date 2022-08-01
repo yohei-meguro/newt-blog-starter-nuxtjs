@@ -2,9 +2,9 @@ import { resolve } from 'path'
 
 export default {
   publicRuntimeConfig: {
-    spaceUid: 'スペースUID',
-    appUid: 'AppUID',
-    token: 'CDN APIトークン',
+    spaceUid: 'ymeguro',
+    appUid: 'blog-starter',
+    token: 'rEbKmwplxOuSsmJKUp285oxhZnZLd-IMTVGgEOsCqg0',
     apiType: 'cdn',
     articleModelUid: 'article',
     categoryModelUid: 'category',
