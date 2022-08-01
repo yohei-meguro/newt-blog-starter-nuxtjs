@@ -20,7 +20,7 @@
           href="https://github.com/Newt-Inc/newt-blog-starter-nuxtjs"
           rel="noreferrer noopener"
           target="_blank"
-          >GitHub</a
+          >GitHub2</a
         >
       </div>
       <div class="Search">
